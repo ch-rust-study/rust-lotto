@@ -1,3 +1,7 @@
+mod model;
+
+use model::lottoIssuer::LottoIssuer;
+
 fn main() {
-    println!("Hello, world!");
+    
 }
