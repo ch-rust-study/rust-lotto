@@ -7,7 +7,7 @@ use controller::lotto_controller::LottoController;
 
 fn main() {
   let issuer = LottoIssuer::new();
-  let controller = LottoController::new(issuer);
+  let mut controller = LottoController::new(issuer);
 
   controller.run();
 }

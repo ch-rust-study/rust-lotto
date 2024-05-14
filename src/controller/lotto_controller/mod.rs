@@ -11,11 +11,18 @@ impl LottoController {
     }
   }
 
-  fn get_amount(&self) {
-
+  fn get_count(&self) -> u32 {
+    let amount = lotto_input::get_amount();
+    // TODO: 에러처리
+    amount / 1000
   }
 
-  pub fn run(&self) {
+  fn issue_lottos(&mut self) {
+    let count = self.get_count();
+    self.issuer.issue_lottos(count);
+  }
 
+  pub fn run(&mut self) {
+    self.issue_lottos();
   }
 }
