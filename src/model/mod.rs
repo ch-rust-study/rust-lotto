@@ -1,2 +1,2 @@
 pub mod lotto;
-pub mod lottoIssuer;
+pub mod lotto_issuer;

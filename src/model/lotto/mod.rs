@@ -19,8 +19,8 @@ impl Lotto {
     &self.numbers
   }
 
-  pub fn issue(&mut self, numbers_generator: fn(min: i32, max: i32, count: u32) -> Vec<i32>) {
-    let generated = numbers_generator(MIN_LOTTO_NUMBER, MAX_LOTTO_NUMBER, LOTTO_NUMBERS_LENGTH as u32).try_into().unwrap();
+  pub fn issue(&mut self, generate_number: &dyn Fn(i32, i32, u32) -> Vec<i32>) {
+    let generated = generate_number(MIN_LOTTO_NUMBER, MAX_LOTTO_NUMBER, LOTTO_NUMBERS_LENGTH as u32).try_into().unwrap();
     self.numbers = Some(generated);
   }
 }
