@@ -179,8 +179,10 @@ impl Lotto {
         let total_prize: u32 = match_counts[3] * 5000
             + match_counts[4] * 50000
             + match_counts[5] * 1500000
-            + match_count_bonus * 30000000;
-        let total_profit = total_prize as f64 / (self.count as f64 * LOTTO_PRICE as f64 * 100.0);
-        println!("총 수익률은 {}%입니다.", total_profit);
+            + match_count_bonus * 30000000
+            + match_counts[6] * 2000000000;
+
+        let total_profit = total_prize as f64 * 100.0 / (self.count as f64 * LOTTO_PRICE as f64);
+        println!("총 수익률은 {}%입니다.\n", total_profit);
     }
 }
