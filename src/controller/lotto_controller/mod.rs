@@ -1,17 +1,15 @@
-use crate::{model::lotto_issuer::LottoIssuer, view::lotto_input::{self, get_bonus_number, get_winning_numbers}};
+use crate::{model::{lotto_issuer::LottoIssuer, lotto_matcher::LottoMatcher}, view::lotto_input::{self, get_bonus_number, get_winning_numbers}};
 
 pub struct LottoController {
   issuer: LottoIssuer,
-  winning_numbers: Option<Vec<i32>>,
-  bonus_number: Option<i32>,
+  matcher: LottoMatcher
 }
 
 impl LottoController {
-  pub fn new(issuer: LottoIssuer) -> LottoController {
+  pub fn new(issuer: LottoIssuer, matcher: LottoMatcher) -> LottoController {
     LottoController {
       issuer,
-      winning_numbers: None,
-      bonus_number: None,
+      matcher,
     }
   }
 
@@ -22,9 +20,7 @@ impl LottoController {
   }
 
   fn set_winning_numbers(&mut self) {
-    // TODO: 에러처리
-    self.winning_numbers = Some(get_winning_numbers());
-    self.bonus_number = Some(get_bonus_number());
+    self.matcher.set_numbers(get_winning_numbers(), get_bonus_number())
   }
 
   fn issue_lottos(&mut self) {
