@@ -21,7 +21,11 @@ impl LottoIssuer {
     }
   }
 
-  pub fn issue_lottos(&mut self, count: u32) {
+  const LOTTO_PRICE: u32 = 1000;
+
+  pub fn issue_lottos(&mut self, amount: u32) {
+    // TODO: 에러처리
+    let count = amount / Self::LOTTO_PRICE;
     for _ in 0..count {
       let mut new_lotto = Lotto::new();
       new_lotto.issue(&generate_number)
