@@ -4,6 +4,7 @@ use std::io;
 const MIN_NUMBER: u32 = 1;
 const MAX_NUMBER: u32 = 45;
 const LOTTO_LENGTH: u32 = 6;
+const LOTTO_PRICE: u32 = 1000;
 
 pub struct Lotto {
     pub count: u32,
@@ -31,7 +32,7 @@ impl Lotto {
                 .expect("Failed to read line");
 
             self.count = match money.trim().parse::<u32>() {
-                Ok(num) => num / 1000,
+                Ok(num) => num / LOTTO_PRICE,
                 Err(_) => continue,
             };
 
@@ -138,5 +139,48 @@ impl Lotto {
             self.bonus_num = bonus_numbers[0];
             break;
         }
+    }
+
+    fn count_matching_numbers(&self, lotto: &Vec<u32>) -> usize {
+        lotto
+            .iter()
+            .filter(|&num| self.win_numbers.contains(num))
+            .count()
+    }
+
+    fn count_matching_numbers_bonus(&self) -> usize {
+        self.lottos
+            .iter()
+            .filter(|&lotto| {
+                self.count_matching_numbers(lotto) == 5 && lotto.contains(&self.bonus_num)
+            })
+            .count()
+    }
+
+    pub fn print_result(&mut self) {
+        let mut match_counts: Vec<u32> = vec![0; 7];
+        let match_count_bonus: u32 = self.count_matching_numbers_bonus().try_into().unwrap();
+
+        for lotto in &self.lottos {
+            match_counts[self.count_matching_numbers(&lotto)] += 1;
+        }
+
+        println!("당첨 통계");
+        println!("--------------------");
+        println!("3개 일치 (5,000원) - {}개", match_counts[3]);
+        println!("4개 일치 (50,000원) - {}개", match_counts[4]);
+        println!("5개 일치 (1,500,000원) - {}개", match_counts[5]);
+        println!(
+            "5개 일치, 보너스 볼 일치 (30,000,000원) - {}개",
+            match_count_bonus
+        );
+        println!("6개 일치 (2,000,000,000원) - {}개", match_counts[6]);
+
+        let total_prize: u32 = match_counts[3] * 5000
+            + match_counts[4] * 50000
+            + match_counts[5] * 1500000
+            + match_count_bonus * 30000000;
+        let total_profit = total_prize as f64 / (self.count as f64 * LOTTO_PRICE as f64 * 100.0);
+        println!("총 수익률은 {}%입니다.", total_profit);
     }
 }

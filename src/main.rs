@@ -8,4 +8,5 @@ fn main() {
     game.print_lotto();
     game.input_win_number();
     game.input_bonus_number();
+    game.print_result();
 }
