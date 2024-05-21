@@ -1,8 +1,11 @@
+mod constants;
 mod lotto;
+mod lotto_checker;
 
 use std::io;
 
 use lotto::Lotto;
+use lotto_checker::LottoChecker;
 
 pub fn is_retry() -> bool {
     loop {
@@ -23,12 +26,14 @@ pub fn is_retry() -> bool {
 
 fn main() {
     loop {
-        let mut game = Lotto::new();
-        game.start();
-        game.print_lotto();
-        game.input_win_number();
-        game.input_bonus_number();
-        game.print_result();
+        let mut lotto = Lotto::new();
+        lotto.start();
+        lotto.print_lotto();
+        lotto.input_win_number();
+        lotto.input_bonus_number();
+
+        let checker = LottoChecker::new(lotto.win_numbers.clone(), lotto.bonus_num);
+        checker.print_result(&lotto.lottos);
 
         if !is_retry() {
             break;
