@@ -13,23 +13,28 @@ pub struct Lotto {
     pub lottos: Vec<Vec<u32>>,
 }
 
+fn read_input(prompt: &str) -> String {
+    println!("{}", prompt);
+    let mut input = String::new();
+    io::stdin()
+        .read_line(&mut input)
+        .expect("Failed to read line");
+    input.trim().to_string()
+}
+
 impl Lotto {
     pub fn new() -> Lotto {
         Lotto {
             count: 0,
-            win_numbers: vec![],
+            win_numbers: Vec::new(),
             bonus_num: 0,
-            lottos: vec![vec![]],
+            lottos: Vec::new(),
         }
     }
 
     pub fn start(&mut self) {
         loop {
-            println!("> 구입 금액을 입력해주세요.");
-            let mut money = String::new();
-            io::stdin()
-                .read_line(&mut money)
-                .expect("Failed to read line");
+            let money = read_input(">구입 금액을 입력해주세요.");
 
             self.count = match money.trim().parse::<u32>() {
                 Ok(num) => num / LOTTO_PRICE,
@@ -90,11 +95,7 @@ impl Lotto {
 
     pub fn input_win_number(&mut self) {
         loop {
-            println!("\n> 당첨 번호를 입력해 주세요.");
-            let mut win_numbers = String::new();
-            io::stdin()
-                .read_line(&mut win_numbers)
-                .expect("Failed to read line");
+            let win_numbers = read_input("\n> 당첨 번호를 입력해 주세요.");
 
             let win_numbers: Vec<u32> = win_numbers
                 .trim()
@@ -124,11 +125,7 @@ impl Lotto {
 
     pub fn input_bonus_number(&mut self) {
         loop {
-            println!("\n> 보너스 번호를 입력해 주세요.");
-            let mut bonus_num: String = String::new();
-            io::stdin()
-                .read_line(&mut bonus_num)
-                .expect("Failed to read line");
+            let bonus_num = read_input("\n> 보너스 번호를 입력해주세요.");
 
             let bonus_numbers: Vec<u32> = bonus_num
                 .trim()
