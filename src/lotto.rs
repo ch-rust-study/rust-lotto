@@ -1,5 +1,5 @@
 use rand::{self, Rng};
-use std::io;
+use std::{collections::HashSet, io};
 
 const MIN_NUMBER: u32 = 1;
 const MAX_NUMBER: u32 = 45;
@@ -83,6 +83,11 @@ impl Lotto {
         return numbers.iter().find(|&x| !self.is_valid_lotto(*x)).is_some();
     }
 
+    fn has_duplicated_number(&self, numbers: &Vec<u32>) -> bool {
+        let unique: HashSet<&u32> = numbers.iter().collect();
+        unique.len() != numbers.len()
+    }
+
     pub fn input_win_number(&mut self) {
         loop {
             println!("> 당첨 번호를 입력해 주세요.");
@@ -99,6 +104,11 @@ impl Lotto {
 
             if self.has_invalid_number(&win_numbers) {
                 println!("번호는 1에서 45사이의 숫자여야 합니다.");
+                continue;
+            }
+
+            if self.has_duplicated_number(&win_numbers) {
+                println!("중복된 번호가 있으면 안됩니다.");
                 continue;
             }
 
@@ -126,13 +136,18 @@ impl Lotto {
                 .filter_map(|num_str| num_str.trim().parse::<u32>().ok())
                 .collect();
 
+            if bonus_numbers.len() != 1 {
+                println!("보너스 번호는 1개여야 합니다.");
+                continue;
+            }
+
             if self.has_invalid_number(&bonus_numbers) {
                 println!("번호는 1에서 45사이의 숫자여야 합니다.");
                 continue;
             }
 
-            if bonus_numbers.len() != 1 {
-                println!("보너스 번호는 1개여야 합니다.");
+            if self.win_numbers.contains(&bonus_numbers[0]) {
+                println!("보너스 번호는 당첨 번호와 달라야 합니다.");
                 continue;
             }
 
