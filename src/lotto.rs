@@ -90,7 +90,7 @@ impl Lotto {
 
     pub fn input_win_number(&mut self) {
         loop {
-            println!("> 당첨 번호를 입력해 주세요.");
+            println!("\n> 당첨 번호를 입력해 주세요.");
             let mut win_numbers = String::new();
             io::stdin()
                 .read_line(&mut win_numbers)
@@ -124,7 +124,7 @@ impl Lotto {
 
     pub fn input_bonus_number(&mut self) {
         loop {
-            println!("> 보너스 번호를 입력해 주세요.");
+            println!("\n> 보너스 번호를 입력해 주세요.");
             let mut bonus_num: String = String::new();
             io::stdin()
                 .read_line(&mut bonus_num)
@@ -177,10 +177,13 @@ impl Lotto {
         let match_count_bonus: u32 = self.count_matching_numbers_bonus().try_into().unwrap();
 
         for lotto in &self.lottos {
-            match_counts[self.count_matching_numbers(&lotto)] += 1;
+            let count = self.count_matching_numbers(&lotto);
+            if !(count == 5 && lotto.contains(&self.bonus_num)) {
+                match_counts[count] += 1;
+            }
         }
 
-        println!("당첨 통계");
+        println!("\n당첨 통계");
         println!("--------------------");
         println!("3개 일치 (5,000원) - {}개", match_counts[3]);
         println!("4개 일치 (50,000원) - {}개", match_counts[4]);

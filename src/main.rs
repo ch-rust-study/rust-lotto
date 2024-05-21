@@ -6,7 +6,7 @@ use lotto::Lotto;
 
 pub fn is_retry() -> bool {
     loop {
-        println!("다시 시작하겠습니까? (y/n)");
+        println!("\n> 다시 시작하겠습니까? (y/n)");
 
         let mut retry: String = String::new();
         io::stdin()
