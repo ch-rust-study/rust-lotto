@@ -66,3 +66,29 @@ impl LottoChecker {
         println!("총 수익률은 {}%입니다.\n", total_profit);
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_count_matching_numbers() {
+        let checker = LottoChecker::new(vec![1, 2, 3, 4, 5, 6], 7);
+        assert_eq!(
+            checker.count_matching_numbers(&vec![1, 2, 3, 10, 11, 12]),
+            3
+        );
+        assert_eq!(checker.count_matching_numbers(&vec![1, 2, 3, 4, 5, 6]), 6);
+    }
+
+    #[test]
+    fn test_count_matching_numbers_bonus() {
+        let checker = LottoChecker::new(vec![1, 2, 3, 4, 5, 6], 7);
+        let lottos = vec![
+            vec![1, 2, 3, 4, 5, 7],
+            vec![1, 2, 3, 4, 5, 6],
+            vec![1, 2, 3, 4, 5, 8],
+        ];
+        assert_eq!(checker.count_matching_numbers_bonus(&lottos), 1);
+    }
+}

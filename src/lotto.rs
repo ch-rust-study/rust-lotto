@@ -150,3 +150,21 @@ impl Lotto {
         }
     }
 }
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_has_invalid_number() {
+        let lotto = Lotto::new();
+        assert!(lotto.has_invalid_number(&vec![0, 1, 2]));
+        assert!(!lotto.has_invalid_number(&vec![1, 2, 3]));
+    }
+
+    #[test]
+    fn test_has_duplicated_number() {
+        let lotto = Lotto::new();
+        assert!(lotto.has_duplicated_number(&vec![1, 1, 2, 3, 4, 5]));
+        assert!(!lotto.has_duplicated_number(&vec![1, 2, 3, 4, 5, 6]));
+    }
+}
